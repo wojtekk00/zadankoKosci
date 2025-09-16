@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView[] obrazyKosci;
     private TextView textViewWynikRzutu;
     private TextView textViewWynikSumaryczny;
+    private int wynikSumaryczny = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,22 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < obrazyKosci.length; i++){
                     obrazyKosci[i].setImageResource(obrazki[rzuty[i]]);
                 }
+
+                int sumaRzutu = sumaKosci(rzuty);
+                textViewWynikRzutu.setText("Wynik rzutu: " + sumaRzutu);
+                wynikSumaryczny += sumaRzutu;
+                textViewWynikSumaryczny.setText("Wynik gry: " + wynikSumaryczny);
+            }
+        });
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wynikSumaryczny = 0;
+                textViewWynikRzutu.setText("Wynik rzutu: ");
+                textViewWynikSumaryczny.setText("Wynik gry: ");
+                for (int i = 0; i < obrazyKosci.length; i++){
+                    obrazyKosci[i].setImageResource(obrazki[0]);
+                }
             }
         });
     }
@@ -73,5 +90,12 @@ public class MainActivity extends AppCompatActivity {
             rzuty[i] = random.nextInt(6)+1; //+1 lub potem przy odczycie grafiki -1
         }
         return rzuty;
+    }
+    private int sumaKosci(int[] rzuty){
+        int s = 0;
+        for(int i = 0; i < rzuty.length; i++){
+            s += rzuty[i];
+        }
+        return s;
     }
 }
